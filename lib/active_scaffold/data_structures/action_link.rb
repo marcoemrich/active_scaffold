@@ -28,7 +28,7 @@ module ActiveScaffold::DataStructures
 
     # the action-path for this link. what page to request? this is required!
     attr_accessor :action
-    
+
     # the controller for this action link. if nil, the current controller should be assumed.
     attr_writer :controller
 
@@ -55,7 +55,7 @@ module ActiveScaffold::DataStructures
     def label
       @label.is_a?(Symbol) ? as_(@label) : @label
     end
-    
+
     # image to use {:name => 'arrow.png', :size => '16x16'}
     attr_accessor :image
 
@@ -67,7 +67,7 @@ module ActiveScaffold::DataStructures
     def confirm?
       @confirm ? true : false
     end
-    
+
     # if the action uses a DHTML based (i.e. 2-phase) confirmation
     attr_writer :dhtml_confirm
     def dhtml_confirm
@@ -87,9 +87,9 @@ module ActiveScaffold::DataStructures
     def security_method_set?
       !!@security_method
     end
-    
+
     attr_accessor :ignore_method
-    
+
     # the crud type of the (eventual?) action. different than :method, because this crud action may not be imminent.
     # this is used to determine record-level authorization (e.g. record.authorized_for?(:crud_type => link.crud_type).
     # options are :create, :read, :update, and :delete
@@ -120,19 +120,19 @@ module ActiveScaffold::DataStructures
     # a "page" link displays by reloading the current page
     # exclusive with inline? and popup?
     def page=(val)
-      @page = (val == true)
-      if @page
+      @active_scaffold_page = (val == true)
+      if @active_scaffold_page
         self.inline = self.popup = false
 
         # when :method is defined, ActionView adds an onclick to use a form ...
         # so it's best to just empty out :method whenever possible.
         # we only ever need to know @method = :get for things that default to POST.
         # the only things that default to POST are forms and ajax calls.
-        # when @page = true, we don't use ajax.
+        # when @active_scaffold_page = true, we don't use ajax.
         self.method = nil if method == :get
       end
     end
-    def page?; @page end
+    def page?; @active_scaffold_page end
 
     # where the result of this action should insert in the display.
     # for :type => :collection, supported values are:
@@ -158,18 +158,18 @@ module ActiveScaffold::DataStructures
 
     # html options for the link
     attr_accessor :html_options
-    
+
     # nested action_links are referencing a column
     attr_accessor :column
-    
+
     # indicates that this a nested_link
     def nested_link?
       @column || (parameters && parameters[:named_scope])
     end
-    
+
     # Internal use: generated eid for this action_link
     attr_accessor :eid
-    
-    
+
+
   end
 end

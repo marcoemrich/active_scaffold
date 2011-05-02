@@ -313,7 +313,7 @@ module ActiveScaffold
       end
 
       def mark_column_heading
-        all_marked = (marked_records.length >= @page.pager.count)
+        all_marked = (marked_records.length >= @active_scaffold_page.pager.count)
         tag_options = {:id => "#{controller_id}_mark_heading", :class => "mark_heading in_place_editor_field"}
         tag_options['data-ie_url'] = url_for({:controller => params_for[:controller], :action => 'mark_all', :eid => params[:eid]})
         content_tag(:span, check_box_tag("#{controller_id}_mark_heading_span_input", !all_marked, all_marked), tag_options)
@@ -342,19 +342,19 @@ module ActiveScaffold
           end
         end
       end
-      
+
       def render_nested_view(action_links, url_options, record)
         rendered = []
         action_links.member.each do |link|
           if link.nested_link? && link.column && @nested_auto_open[link.column.name] && @records.length <= @nested_auto_open[link.column.name] && controller.respond_to?(:render_component_into_view)
-            link_url_options = {:adapter => '_list_inline_adapter', :format => :js}.merge(action_link_url_options(link, url_options, record, options = {:reuse_eid => true})) 
+            link_url_options = {:adapter => '_list_inline_adapter', :format => :js}.merge(action_link_url_options(link, url_options, record, options = {:reuse_eid => true}))
             link_id = get_action_link_id(link_url_options, record, link.column)
             rendered << (controller.send(:render_component_into_view, link_url_options) + javascript_tag("ActiveScaffold.ActionLink.get('#{link_id}').set_opened();"))
-          end 
+          end
         end
         rendered.join(' ').html_safe
-      end  
-      
+      end
+
     end
   end
 end

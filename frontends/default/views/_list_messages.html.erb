@@ -11,7 +11,7 @@
       <p class="filtered-message" <%= ' style="display:none;" '.html_safe unless @filtered %>>
         <%= @filtered.is_a?(Array) ? render(:partial => 'human_conditions', :locals => {:columns => @filtered}) : as_(active_scaffold_config.list.filtered_message) %>
       </p>
-      <p id="<%= empty_message_id %>" class="empty-message" <%= ' style="display:none;" '.html_safe unless @page.items.empty? %>>
+      <p id="<%= empty_message_id %>" class="empty-message" <%= ' style="display:none;" '.html_safe unless @active_scaffold_page.items.empty? %>>
         <%= as_(active_scaffold_config.list.no_entries_message) %>
       </p>
     </td>
@@ -23,10 +23,10 @@
       action_links.add(search_link)  -%>
       <%= render :partial => 'list_actions', :locals => {:record => record, :url_options => params_for(:escape => false, :search => ''), :action_links => action_links.member} %>
     <% else %>
-      <td class='actions'><%= '<p class="empty-message">&nbsp;</p>'.html_safe if @page.items.empty? %></td>
+      <td class='actions'><%= '<p class="empty-message">&nbsp;</p>'.html_safe if @active_scaffold_page.items.empty? %></td>
     <% end -%>
 
   </tr>
-</tbody>    
+</tbody>
 
 

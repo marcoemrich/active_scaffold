@@ -80,7 +80,7 @@ module ActiveScaffold::Actions
         page = page.pager.last
         active_scaffold_config.list.user.page = page.number
       end
-      @page, @records = page, page.items
+      @active_scaffold_page, @records = page, page.items
     end
 
     def each_record_in_scope
