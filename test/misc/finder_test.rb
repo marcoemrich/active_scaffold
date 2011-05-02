@@ -71,9 +71,9 @@ class FinderTest < Test::Unit::TestCase
     @klass.expects(:custom_finder_options).returns({:group => :a})
     ModelStub.expects(:count).returns(ActiveSupport::OrderedHash['foo', 5])
     ModelStub.expects(:find).with(:all, has_entries(:limit => 20, :offset => 0))
-    page = @klass.send :find_page, :per_page => 20, :pagination => true
+    page = @klass.send :active_scaffold_find_page, :per_page => 20, :pagination => true
     page.items
-    
+
     assert_kind_of Integer, page.pager.count
     assert_equal 1, page.pager.count
     assert_nothing_raised { page.pager.number_of_pages }
@@ -82,12 +82,12 @@ class FinderTest < Test::Unit::TestCase
   def test_disabled_pagination
     ModelStub.expects(:count).returns(85)
     ModelStub.expects(:find).with(:all, Not(has_entries(:limit => 20, :offset => 0)))
-    page = @klass.send :find_page, :per_page => 20, :pagination => false
+    page = @klass.send :active_scaffold_find_page, :per_page => 20, :pagination => false
     page.items
   end
 
   def test_infinite_pagination
     ModelStub.expects(:count).never
-    page = @klass.send :find_page, :pagination => :infinite
+    page = @klass.send :active_scaffold_find_page, :pagination => :infinite
   end
 end

@@ -50,6 +50,7 @@ module Rails
 
   class GemBoot < Boot
     def load_initializer
+      require 'rubygems'
       self.class.load_rubygems
       load_rails_gem
       require 'initializer'
